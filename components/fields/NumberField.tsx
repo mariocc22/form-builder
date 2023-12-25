@@ -1,20 +1,21 @@
 "use client";
 
-import { MdTextFields } from "react-icons/md";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   ElementsType,
   FormElement,
   FormElementInstance,
   SubmitFunction,
 } from "../FormElements";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import useDesigner from "../hooks/useDesigner";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
+import { cn } from "@/lib/utils";
+import { Bs123 } from "react-icons/bs";
 import {
   Form,
   FormControl,
@@ -25,35 +26,33 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Switch } from "../ui/switch";
-import { cn } from "@/lib/utils";
 
-const type: ElementsType = "TextField";
+const type: ElementsType = "NumberField";
 
 const extraAttributes = {
-  label: "Text Field",
-  helperText: "Text Helper",
+  label: "Number field",
+  helperText: "Helper text",
   required: false,
-  placeholder: "Placeholder",
+  placeHolder: "0",
 };
 
 const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
   helperText: z.string().max(200),
   required: z.boolean().default(false),
-  placeholder: z.string().max(50),
+  placeHolder: z.string().max(50),
 });
 
-export const TextFieldFormElement: FormElement = {
+export const NumberFieldFormElement: FormElement = {
   type,
   construct: (id: string) => ({
     id,
     type,
     extraAttributes,
   }),
-
   designerBtnElement: {
-    icon: MdTextFields,
-    label: "Text Field",
+    icon: Bs123,
+    label: "Number Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -76,8 +75,6 @@ type CustomInstance = FormElementInstance & {
   extraAttributes: typeof extraAttributes;
 };
 
-type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
-
 function DesignerComponent({
   elementInstance,
 }: {
@@ -91,7 +88,7 @@ function DesignerComponent({
         {label}
         {required && "*"}
       </Label>
-      <Input readOnly disabled placeholder={placeHolder} />
+      <Input readOnly disabled type="number" placeholder={placeHolder} />
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
       )}
@@ -127,12 +124,16 @@ function FormComponent({
         {required && "*"}
       </Label>
       <Input
+        type="number"
         className={cn(error && "border-red-500")}
         placeholder={placeHolder}
         onChange={(e) => setValue(e.target.value)}
         onBlur={(e) => {
           if (!submitValue) return;
-          const valid = TextFieldFormElement.validate(element, e.target.value);
+          const valid = NumberFieldFormElement.validate(
+            element,
+            e.target.value
+          );
           setError(!valid);
           if (!valid) return;
           submitValue(element.id, e.target.value);
@@ -153,6 +154,7 @@ function FormComponent({
   );
 }
 
+type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 function PropertiesComponent({
   elementInstance,
 }: {
@@ -160,7 +162,6 @@ function PropertiesComponent({
 }) {
   const element = elementInstance as CustomInstance;
   const { updateElement } = useDesigner();
-
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
     mode: "onBlur",
@@ -168,7 +169,7 @@ function PropertiesComponent({
       label: element.extraAttributes.label,
       helperText: element.extraAttributes.helperText,
       required: element.extraAttributes.required,
-      placeholder: element.extraAttributes.placeholder,
+      placeHolder: element.extraAttributes.placeHolder,
     },
   });
 
@@ -177,13 +178,14 @@ function PropertiesComponent({
   }, [element, form]);
 
   function applyChanges(values: propertiesFormSchemaType) {
+    const { label, helperText, placeHolder, required } = values;
     updateElement(element.id, {
       ...element,
       extraAttributes: {
-        label: values.label,
-        helperText: values.helperText,
-        required: values.required,
-        placeholder: values.placeholder,
+        label,
+        helperText,
+        placeHolder,
+        required,
       },
     });
   }
@@ -221,7 +223,7 @@ function PropertiesComponent({
         />
         <FormField
           control={form.control}
-          name="placeholder"
+          name="placeHolder"
           render={({ field }) => (
             <FormItem>
               <FormLabel>PlaceHolder</FormLabel>
