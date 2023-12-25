@@ -8,14 +8,7 @@ import { FaWpforms } from "react-icons/fa";
 import { HiCursorClick } from "react-icons/hi";
 import { TbArrowBounce } from "react-icons/tb";
 import { ElementsType, FormElementInstance } from "@/components/FormElements";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format, formatDistance } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -163,20 +156,14 @@ async function SubmissionsTable({ id }: { id: number }) {
                   {column.label}
                 </TableHead>
               ))}
-              <TableHead className="text-muted-foreground text-right uppercase">
-                Submitted at
-              </TableHead>
+              <TableHead className="text-muted-foreground text-right uppercase">Submitted at</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {rows.map((row, index) => (
               <TableRow key={index}>
                 {columns.map((column) => (
-                  <RowCell
-                    key={column.id}
-                    type={column.type}
-                    value={row[column.id]}
-                  />
+                  <RowCell key={column.id} type={column.type} value={row[column.id]} />
                 ))}
                 <TableCell className="text-muted-foreground text-right">
                   {formatDistance(row.submittedAt, new Date(), {
