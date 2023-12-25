@@ -11,7 +11,7 @@ function VisitBtn({ shareUrl }: { shareUrl: string }) {
   }, []);
 
   if (!mounted) {
-    return null; // avoiding window not defined error, for hydration errors
+    return null; // avoiding window not defined error
   }
 
   const shareLink = `${window.location.origin}/submit/${shareUrl}`;

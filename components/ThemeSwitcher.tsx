@@ -14,7 +14,6 @@ function ThemeSwitcher() {
   }, []);
 
   if (!mounted) return null; // avoid rehydration errors
-
   return (
     <Tabs defaultValue={theme}>
       <TabsList className="border">

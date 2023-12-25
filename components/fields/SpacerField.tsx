@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ElementsType,
-  FormElement,
-  FormElementInstance,
-} from "../FormElements";
+import { ElementsType, FormElement, FormElementInstance } from "../FormElements";
 import { Label } from "../ui/label";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -12,14 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import useDesigner from "../hooks/useDesigner";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { LuSeparatorHorizontal } from "react-icons/lu";
 import { Slider } from "../ui/slider";
 
@@ -55,11 +44,7 @@ type CustomInstance = FormElementInstance & {
   extraAttributes: typeof extraAttributes;
 };
 
-function DesignerComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
+function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
   const element = elementInstance as CustomInstance;
   const { height } = element.extraAttributes;
   return (
@@ -70,11 +55,7 @@ function DesignerComponent({
   );
 }
 
-function FormComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
+function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
   const element = elementInstance as CustomInstance;
 
   const { height } = element.extraAttributes;
@@ -83,11 +64,7 @@ function FormComponent({
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
-function PropertiesComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
+function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
   const element = elementInstance as CustomInstance;
   const { updateElement } = useDesigner();
   const form = useForm<propertiesFormSchemaType>({

@@ -1,16 +1,7 @@
 import { GetFormStats, GetForms } from "@/actions/form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import React, { ReactNode, Suspense } from "react";
-
-// icons
+import { ReactNode, Suspense } from "react";
 import { LuView } from "react-icons/lu";
 import { FaWpforms } from "react-icons/fa";
 import { HiCursorClick } from "react-icons/hi";
@@ -22,11 +13,10 @@ import { Badge } from "@/components/ui/badge";
 import { formatDistance } from "date-fns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
 import { BiRightArrowAlt } from "react-icons/bi";
 import { FaEdit } from "react-icons/fa";
 
-const Home = () => {
+export default function Home() {
   return (
     <div className="container pt-4">
       <Suspense fallback={<StatsCards loading={true} />}>
@@ -35,7 +25,7 @@ const Home = () => {
       <Separator className="my-6" />
       <h2 className="text-4xl font-bold col-span-2">Your forms</h2>
       <Separator className="my-6" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gric-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <CreateFormBtn />
         <Suspense
           fallback={[1, 2, 3, 4].map((el) => (
@@ -47,7 +37,7 @@ const Home = () => {
       </div>
     </div>
   );
-};
+}
 
 async function CardStatsWrapper() {
   const stats = await GetFormStats();
@@ -59,42 +49,45 @@ interface StatsCardProps {
   loading: boolean;
 }
 
-export function StatsCards(props: StatsCardProps) {
+function StatsCards(props: StatsCardProps) {
   const { data, loading } = props;
 
   return (
-    <div className="w-full pt-8 gap-4 grid grid-cols-1 md:grid-cols2 lg:grid-cols-4">
+    <div className="w-full pt-8 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
       <StatsCard
         title="Total visits"
         icon={<LuView className="text-blue-600" />}
         helperText="All time form visits"
         value={data?.visits.toLocaleString() || ""}
         loading={loading}
-        className="shadow-blue-600"
+        className="shadow-md shadow-blue-600"
       />
+
       <StatsCard
         title="Total submissions"
         icon={<FaWpforms className="text-yellow-600" />}
         helperText="All time form submissions"
-        value={data?.visits.toLocaleString() || ""}
+        value={data?.submissions.toLocaleString() || ""}
         loading={loading}
-        className="shadow-yellow-600"
+        className="shadow-md shadow-yellow-600"
       />
+
       <StatsCard
         title="Submission rate"
         icon={<HiCursorClick className="text-green-600" />}
         helperText="Visits that result in form submission"
-        value={data?.visits.toLocaleString() + "%" || ""}
+        value={data?.submissionRate.toLocaleString() + "%" || ""}
         loading={loading}
-        className="shadow-green-600"
+        className="shadow-md shadow-green-600"
       />
+
       <StatsCard
         title="Bounce rate"
         icon={<TbArrowBounce className="text-red-600" />}
         helperText="Visits that leaves without interacting"
-        value={data?.visits.toLocaleString() + "%" || ""}
+        value={data?.submissionRate.toLocaleString() + "%" || ""}
         loading={loading}
-        className="shadow-red-600"
+        className="shadow-md shadow-red-600"
       />
     </div>
   );
@@ -118,9 +111,7 @@ export function StatsCard({
   return (
     <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {title}
-        </CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
         {icon}
       </CardHeader>
       <CardContent>
@@ -182,17 +173,13 @@ function FormCard({ form }: { form: Form }) {
       <CardFooter>
         {form.published && (
           <Button asChild className="w-full mt-2 text-md gap-4">
-            <Link href={`/form/${form.id}`}>
+            <Link href={`/forms/${form.id}`}>
               View submissions <BiRightArrowAlt />
             </Link>
           </Button>
         )}
         {!form.published && (
-          <Button
-            asChild
-            variant={"secondary"}
-            className="w-full mt-2 text-md gap-4"
-          >
+          <Button asChild variant={"secondary"} className="w-full mt-2 text-md gap-4">
             <Link href={`/builder/${form.id}`}>
               Edit form <FaEdit />
             </Link>
@@ -202,5 +189,3 @@ function FormCard({ form }: { form: Form }) {
     </Card>
   );
 }
-
-export default Home;
