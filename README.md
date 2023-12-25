@@ -1,29 +1,19 @@
-![pageform_thumbnail](https://github.com/Kliton/yt_pageform/assets/10452377/610b5935-5afd-4126-9dfd-a7064e18a0db)
+# Form Builder Project
 
-[Discord server for problems/help](https://discord.gg/Gc3ShuJrYE)
+## Introduction
 
-[Youtube video](https://youtu.be/QGXUUXy0AMw)
+Welcome to the Form Builder Project - a dynamic and user-friendly form builder application built with Next.js, TypeScript, TailwindCSS, and Prisma. This project is designed to provide an efficient way to create and manage custom forms for various use cases.
 
-[LIVE DEMO](https://yt-pageform.vercel.app/)
+## Features
 
-In this 4 hour tutorial we are going to build this full stack PageForm application.
+- **Dynamic Form Creation**: Easily create forms with various field types.
+- **Responsive Design**: Built with TailwindCSS for a responsive and modern UI.
+- **Type Safety**: Leveraging TypeScript for reliable and maintainable code.
+- **Database Integration**: Utilizing Prisma for robust and easy database management.
 
-We are going to build this with:
-- Nextjs 13  with AppRouter
-- Dnd-kit library
-- ServerActions
-- Typescript
-- Tailwindcss / Shadcn UI
-- Vercel PostgreSQL
-- Prisma as ORM
+## Getting Started
 
-Features: 
-- Responsive
-- Create forms with a stunning drag and drop designer
-- Layout fields: Title, SubTitle, Spacer, Separator, Paragraph
-- Form fields: Text, Number, Select, Date, Checkbox, Textarea
-- Is easy to add and customize new fields
-- Form preview dialog
-- Share form url
-- Form submission/validation
-- Form stats: visits and submissions
+### Prerequisites
+
+- Node.js (v12.x or higher)
+- A PostgreSQL database
